@@ -5,16 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Reversi
+public abstract class StateMachine : MonoBehaviour
 {
-    public abstract class StateMachine : MonoBehaviour
-    {
-        protected State crt_state;
+    protected State crt_state;
 
-        public void SetState(State state)
+    public void SetState(State state)
+    {
+        if (crt_state != null)
         {
-            crt_state = state;
-            StartCoroutine(crt_state.Start());
+            StartCoroutine(crt_state.StateEnd());
         }
+
+        crt_state = state;
+        StartCoroutine(crt_state.StateStart());
     }
 }

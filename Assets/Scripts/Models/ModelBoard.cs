@@ -27,37 +27,35 @@ public enum DiscValue : int
 
 public class ModelBoard
 {
-    List<DiscInfo> disc_infos = new List<DiscInfo>();
+    public DiscInfo[,] disc_infos;
 
-    private void InitBoard()
+    public void InitBoard()
     {
+        disc_infos = new DiscInfo[8, 8];
+
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
             {
-                DiscInfo dis_none = new DiscInfo(i, j, DiscValue.White);
-                disc_infos.Add(dis_none);
+                DiscInfo disc_info = new DiscInfo(i, j, DiscValue.None);
+                disc_infos[i, j] = disc_info;
             }
         }
 
-        DiscInfo w1 = new DiscInfo(3, 3, DiscValue.White);
-        DiscInfo w2 = new DiscInfo(4, 4, DiscValue.White);
-        DiscInfo w3 = new DiscInfo(3, 4, DiscValue.Black);
-        DiscInfo w4 = new DiscInfo(4, 3, DiscValue.Black);
-        disc_infos.Add(w1);
-        disc_infos.Add(w1);
-        disc_infos.Add(w1);
-        disc_infos.Add(w1);
+        disc_infos[3, 3].V = DiscValue.White;
+        disc_infos[4, 4].V = DiscValue.White;
+        disc_infos[3, 4].V = DiscValue.Black;
+        disc_infos[4, 3].V = DiscValue.Black;
     }
 
     private void ChangeDisc(int x, int y, DiscValue v)
     {
-        DiscInfo disc_item = disc_infos.Find(item => (item.X == x && item.Y == y));
+        //DiscInfo disc_item = disc_infos.Find(item => (item.X == x && item.Y == y));
 
-        if (disc_item != null)
-        {
-            disc_item.V = v;
-        }
+        //if (disc_item != null)
+        //{
+        //    disc_item.V = v;
+        //}
     }
     private void is_valid(DiscInfo disc_info)
     {

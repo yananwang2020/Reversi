@@ -1,28 +1,27 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Reversi
+public abstract class State
 {
-    public abstract class State
+    protected GameSystem game_system;
+
+    public State(GameSystem gs)
     {
-        public virtual IEnumerator Start()
-        {
-            yield break;
-        }
+        game_system = gs;
+    }
 
-        public virtual IEnumerator Pause()
-        {
-            yield break;
-        }
+    public virtual IEnumerator StateStart()
+    {
+        yield break;
+    }
 
-        public virtual IEnumerator End()
-        {
-            yield break;
-        }
+    public virtual IEnumerator StateEnd()
+    {
+        yield break;
+    }
 
-        public virtual IEnumerator DropDisc(DiscInfo disc_info)
-        {
-            yield break;
-        }
+    public virtual IEnumerator DropDisc(DiscInfo disc_info)
+    {
+        yield break;
     }
 }

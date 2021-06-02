@@ -2,23 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonoBoard : MonoBehaviour
+public class Board : MonoBehaviour
 {
     public GameObject point_top_left;
     public GameObject point_bottom_right;
-    public GameObject pref_chess;
+    public GameObject pref_disc;
 
     private int lines = 8;
     private Vector3[,] disc_positions;
+    private Disc[,] discs;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        init_disc_positions();
-        test_spawn_discs();
-    }
 
-    void init_disc_positions()
+    public void InitDiscPos()
     {
         disc_positions = new Vector3[lines, lines];
         Vector3 pos_tl = point_top_left.transform.localPosition;
@@ -35,23 +31,32 @@ public class MonoBoard : MonoBehaviour
         }
     }
 
-    void test_spawn_discs()
+    public void InitDiscs()
     {
-        Debug.Log("test_spawn_chess");
+        Debug.Log("InitDiscs");
+        discs = new Disc[lines, lines];
         for (int i = 0; i < lines; i++)
         {
             for (int j = 0; j < lines; j++)
             {
-                GameObject disc_i = Instantiate(pref_chess) as GameObject;
+                GameObject disc_i = Instantiate(pref_disc) as GameObject;
                 disc_i.transform.SetParent(this.transform);
                 disc_i.transform.localPosition = disc_positions[i,j];
+                discs[i, j] = disc_i.GetComponent<Disc>();
+                discs[i, j].SetValue(DiscValue.None);
             }
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetDiscs(DiscInfo[,] discinfos)
     {
-        
+        Debug.Log("SetDiscs");
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                discs[i, j].SetValue(discinfos[i, j].V);
+            }
+        }
     }
 }

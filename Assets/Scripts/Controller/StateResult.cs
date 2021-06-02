@@ -5,9 +5,7 @@ using System.Text;
 using UnityEngine;
 using System.Threading.Tasks;
 
-namespace Reversi
+class StateResult : State
 {
-    class StateEnd:State
-    {
-    }
+    public StateResult(GameSystem gamesystem) : base(gamesystem) { }
 }
