@@ -7,16 +7,17 @@ using UnityEngine;
 
 public abstract class StateMachine : MonoBehaviour
 {
-    protected State crt_state;
+    protected State mCrtState;
 
     public void SetState(State state)
     {
-        if (crt_state != null)
+        if (mCrtState != null)
         {
-            StartCoroutine(crt_state.StateEnd());
+            StartCoroutine(mCrtState.StateEnd());
         }
 
-        crt_state = state;
-        StartCoroutine(crt_state.StateStart());
+        mCrtState = state;
+        StartCoroutine(mCrtState.StateStart());
+        Debug.Log("SetState: " + state.ToString());
     }
 }

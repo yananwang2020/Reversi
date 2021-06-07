@@ -5,14 +5,15 @@ using UnityEngine;
 
 public class Disc : MonoBehaviour
 {
-    DiscValue disc_value;
-    public SpriteRenderer disc_image;
+    public DiscInfo discInfo;
+    public SpriteRenderer discImage;
+    public Collider2D discCollider;
 
-    Dictionary<DiscValue, Color> disc_colors;
+    Dictionary<DiscValue, Color> mDiscColors;
 
     private void Awake()
     {
-        disc_colors = new Dictionary<DiscValue, Color>()
+        mDiscColors = new Dictionary<DiscValue, Color>()
         {
             { DiscValue.None, new Color(0, 0, 0, 0) },
             { DiscValue.Black, Color.black },
@@ -20,10 +21,9 @@ public class Disc : MonoBehaviour
         };
     }
 
-    public void SetValue(DiscValue newvalue)
+    public void SetInfo(DiscInfo disc_info)
     {
-        Debug.Log("Disc set value");
-        disc_value = newvalue;
-        disc_image.color = disc_colors[disc_value];
+        discInfo = disc_info;
+        discImage.color = mDiscColors[discInfo.V];
     }
 }

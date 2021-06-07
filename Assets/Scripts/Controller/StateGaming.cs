@@ -12,17 +12,25 @@ class StateGaming : State
 
     public override IEnumerator StateStart()
     {
-        game_system.board.InitDiscPos();
-        game_system.board.InitDiscs();
+        // Step 1: Init all models and UI
 
-        game_system.modelboard.InitBoard();
-        game_system.board.SetDiscs(game_system.modelboard.disc_infos);
+        mGameSystem.board.InitDiscPos();
+        mGameSystem.board.InitDiscs();
+
+        // mGameSystem.modelboard.BindOnDiscInfoChange(mGameSystem.board.SetDiscs);
+        mGameSystem.modelboard.InitBoard();
+        mGameSystem.board.SetDiscs(mGameSystem.modelboard.mDiscInfos);
+
+        mGameSystem.ui_root.ShowGaming(true);
 
         yield return new WaitForSeconds(1);
+
+        // Step 2: Go to Black Turn
+        mGameSystem.SetState(new StateBlackTurn(mGameSystem));
     }
 
     public override IEnumerator StateEnd()
     {
-        return base.StateEnd();
+        yield return null;
     }
 }

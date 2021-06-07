@@ -3,11 +3,11 @@ using UnityEngine;
 
 public abstract class State
 {
-    protected GameSystem game_system;
+    protected GameSystem mGameSystem;
 
     public State(GameSystem gs)
     {
-        game_system = gs;
+        mGameSystem = gs;
     }
 
     public virtual IEnumerator StateStart()
@@ -20,7 +20,7 @@ public abstract class State
         yield break;
     }
 
-    public virtual IEnumerator DropDisc(DiscInfo disc_info)
+    public virtual IEnumerator DropDisc(int pos_x, int pos_y)
     {
         yield break;
     }

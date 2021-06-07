@@ -31,6 +31,22 @@ public class GameSystem : StateMachine
         if (Input.GetKeyDown(KeyCode.Escape))
         {
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
+
+            if (hit.collider != null)
+            {
+                Disc disc = hit.collider.transform.GetComponentInParent<Disc>();
+                if (disc != null)
+                {
+                    var discinfo = disc.discInfo;
+                    StartCoroutine(mCrtState.DropDisc(discinfo.X, discinfo.Y));
+                }
+            }
+        }
     }
 
     public void Init()
@@ -40,7 +56,6 @@ public class GameSystem : StateMachine
 
     public void RegistActions()
     {
-        //GlobalEventManager.Instance.RegisterAction(ActionName.GameInit, new Action(InitGame));
         GlobalEventManager.Instance.RegisterAction(ActionName.GameStartAsCat, new Action(StartGameAsCat));
         GlobalEventManager.Instance.RegisterAction(ActionName.GameStartAsDog, new Action(StartGameAsDog));
         GlobalEventManager.Instance.RegisterAction(ActionName.GameEnd, new Action(ShowResult));

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 public class DiscInfo
 {
@@ -16,6 +17,11 @@ public class DiscInfo
     {
         return (X == 0 || Y == 0 || X == 7 || Y == 7);
     }
+
+    public override string ToString()
+    {
+        return ($"Disc at {X},{Y} with value {V}");
+    }
 }
 
 public enum DiscValue : int
@@ -27,39 +33,71 @@ public enum DiscValue : int
 
 public class ModelBoard
 {
-    public DiscInfo[,] disc_infos;
+    public delegate void OnDiscInfoChange(DiscInfo[,] disc_info);
+    public OnDiscInfoChange mOnDiscInfoChange;
+    public DiscInfo[,] mDiscInfos;
 
     public void InitBoard()
     {
-        disc_infos = new DiscInfo[8, 8];
+        mDiscInfos = new DiscInfo[8, 8];
 
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
             {
                 DiscInfo disc_info = new DiscInfo(i, j, DiscValue.None);
-                disc_infos[i, j] = disc_info;
+                mDiscInfos[i, j] = disc_info;
             }
         }
 
-        disc_infos[3, 3].V = DiscValue.White;
-        disc_infos[4, 4].V = DiscValue.White;
-        disc_infos[3, 4].V = DiscValue.Black;
-        disc_infos[4, 3].V = DiscValue.Black;
+        mDiscInfos[3, 3].V = DiscValue.White;
+        mDiscInfos[4, 4].V = DiscValue.White;
+        mDiscInfos[3, 4].V = DiscValue.Black;
+        mDiscInfos[4, 3].V = DiscValue.Black;
+
+        if(mOnDiscInfoChange != null)
+        {
+            mOnDiscInfoChange(mDiscInfos);
+        }
     }
 
-    private void ChangeDisc(int x, int y, DiscValue v)
+    public void ChangeDisc(int x, int y, DiscValue v)
     {
-        //DiscInfo disc_item = disc_infos.Find(item => (item.X == x && item.Y == y));
-
-        //if (disc_item != null)
-        //{
-        //    disc_item.V = v;
-        //}
+        mDiscInfos[x, y].V = v;
+        //mOnDiscInfoChange(mDiscInfos);
     }
+
     private void is_valid(DiscInfo disc_info)
     {
 
 
+    }
+
+    public void BindOnDiscInfoChange(OnDiscInfoChange bind_method)
+    {
+        mOnDiscInfoChange += bind_method;
+    }
+
+    public void GetScores(out int black_score, out int white_score)
+    {
+        black_score = 0;
+        white_score = 0;
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                switch (mDiscInfos[i, j].V)
+                {   
+                    case DiscValue.Black:
+                        black_score++;
+                    break;
+
+                    case DiscValue.White:
+                        white_score++;
+                    break;
+
+                }
+            }
+        }
     }
 }
