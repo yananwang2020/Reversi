@@ -43,7 +43,7 @@ public class GameSystem : StateMachine
                 if (disc != null)
                 {
                     var discinfo = disc.discInfo;
-                    StartCoroutine(mCrtState.DropDisc(discinfo.X, discinfo.Y));
+                    StartCoroutine(mCrtState.PlaceDisc(discinfo.Pos));
                 }
             }
         }

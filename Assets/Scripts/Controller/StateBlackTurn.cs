@@ -1,18 +1,22 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
-using System.Threading.Tasks;
-using System.Collections;
 
-class StateBlackTurn: State
+class StateBlackTurn : State
 {
     public StateBlackTurn(GameSystem game_system) : base(game_system) { }
 
     public override IEnumerator StateStart()
     {
         mGameSystem.ui_root.BlackTurn();
+
+        List<Vector2Int> available_pos_list = mGameSystem.modelboard.GetAllValidPos(DiscSide.Black);
+        if (available_pos_list.Count > 0)
+        {
+            // Visualise all available positions in the board
+            mGameSystem.board.ShowAvailablePos(available_pos_list);
+        }
+
         yield return null;
     }
 
@@ -21,11 +25,12 @@ class StateBlackTurn: State
         yield return null;
     }
 
-    public override IEnumerator DropDisc(int pos_x, int pos_y)
+    public override IEnumerator PlaceDisc(Vector2Int pos)
     {
-        Debug.Log($"DropDisc at ({pos_x}, {pos_y})");
-        mGameSystem.modelboard.ChangeDisc(pos_x, pos_x, DiscValue.Black);
+        Debug.Log($"The black side drops disc at ({pos})");
 
+        DiscSide side = DiscSide.Black;
+        mGameSystem.modelboard.PlaceDisc(pos, side);
         int blackScore;
         int whiteScore;
         mGameSystem.modelboard.GetScores(out blackScore, out whiteScore);
@@ -35,5 +40,6 @@ class StateBlackTurn: State
 
         yield return new WaitForSeconds(1);
         mGameSystem.SetState(new StateWhiteTurn(mGameSystem));
+
     }
 }

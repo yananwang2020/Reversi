@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using System.Threading.Tasks;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 class StateWhiteTurn : State
 {
@@ -12,7 +9,11 @@ class StateWhiteTurn : State
 
     public override IEnumerator StateStart()
     {
-        yield return null;
+        mGameSystem.ui_root.WhiteTurn();
+
+        RandomPlaceDisc();
+        yield return new WaitForSeconds(1);
+        mGameSystem.SetState(new StateBlackTurn(mGameSystem));
     }
 
     public override IEnumerator StateEnd()
@@ -20,19 +21,29 @@ class StateWhiteTurn : State
         yield return null;
     }
 
-    public override IEnumerator DropDisc(int pos_x, int pos_y)
+    public void RandomPlaceDisc()
     {
-        Debug.Log($"DropDisc at ({pos_x}, {pos_y})");
-        mGameSystem.modelboard.ChangeDisc(pos_x, pos_x, DiscValue.White);
+        List<Vector2Int> available_pos_list = mGameSystem.modelboard.GetAllValidPos(DiscSide.White);
+        if (available_pos_list.Count <= 0)
+        {
+            return;
+        }
+        // Random place a disc
+        // Will use algorithms to decide where to place
+        int drop_pos_idx = UnityEngine.Random.Range(0, available_pos_list.Count);
+        Vector2Int pos = available_pos_list[drop_pos_idx];
+
+        Debug.Log($"The white side drops disc at ({pos})");
+
+        DiscSide side = DiscSide.White;
+        mGameSystem.modelboard.PlaceDisc(pos, side);
+
+        mGameSystem.board.SetDiscs(mGameSystem.modelboard.mDiscInfos);
 
         int blackScore;
         int whiteScore;
         mGameSystem.modelboard.GetScores(out blackScore, out whiteScore);
         mGameSystem.ui_root.SetScores(blackScore, whiteScore);
 
-        mGameSystem.board.SetDiscs(mGameSystem.modelboard.mDiscInfos);
-
-        yield return new WaitForSeconds(1);
-        mGameSystem.SetState(new StateBlackTurn(mGameSystem));
     }
 }

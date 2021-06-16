@@ -19,8 +19,8 @@ public abstract class State
     {
         yield break;
     }
-
-    public virtual IEnumerator DropDisc(int pos_x, int pos_y)
+    
+    public virtual IEnumerator PlaceDisc(Vector2Int pos)
     {
         yield break;
     }

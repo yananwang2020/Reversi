@@ -23,7 +23,7 @@ public class Board : MonoBehaviour
         {
             for (int j = 0; j < lines; j++)
             {
-                Vector3 pos_i = pos_tl + new Vector3(pos_gap.x * i, pos_gap.y * j, 0);
+                Vector3 pos_i = pos_tl + new Vector3(pos_gap.x * j, pos_gap.y * i, 0);
                 discPositions[i,j] = pos_i;
             }
         }
@@ -37,12 +37,12 @@ public class Board : MonoBehaviour
         {
             for (int j = 0; j < lines; j++)
             {
-                GameObject disc_i = Instantiate(prefDisc) as GameObject;
-                disc_i.transform.SetParent(this.transform);
-                disc_i.transform.localPosition = discPositions[i,j];
-                disc_i.transform.localScale = Vector3.one;
-                disc_i.name = $"{prefDisc.name}_{i}_{j}";
-                discs[i, j] = disc_i.GetComponent<Disc>();
+                GameObject disc_ij = Instantiate(prefDisc) as GameObject;
+                disc_ij.transform.SetParent(this.transform);
+                disc_ij.transform.localPosition = discPositions[i,j];
+                disc_ij.transform.localScale = Vector3.one;
+                disc_ij.name = $"{prefDisc.name}_{i}_{j}";
+                discs[i, j] = disc_ij.GetComponent<Disc>();
             }
         }
     }
@@ -56,6 +56,14 @@ public class Board : MonoBehaviour
             {
                 discs[i, j].SetInfo(discinfos[i, j]);
             }
+        }
+    }
+
+    public void ShowAvailablePos(List<Vector2Int> available_pos_list)
+    {
+        foreach(Vector2Int pos in available_pos_list)
+        {
+            discs[pos.x, pos.y].ShowAvailableColor();
         }
     }
 }
