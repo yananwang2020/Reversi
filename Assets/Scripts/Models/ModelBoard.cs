@@ -168,9 +168,13 @@ public class ModelBoard
             if (stage == 2)
             {
                 flipped_discs.AddRange(routine_discs);
-                return true;
+                continue;
             }
         }
+
+        if (flipped_discs.Count > 0)
+            return true;
+
         return false;
     }
 
