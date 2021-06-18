@@ -20,18 +20,6 @@ public class GameSystem : StateMachine
 
     private void Update()
     {
-        if (Input.GetKeyDown("p"))
-        {
-        }
-
-        if (Input.GetKeyDown("q"))
-        {
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-        }
-
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

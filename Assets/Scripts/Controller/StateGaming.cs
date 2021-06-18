@@ -13,12 +13,13 @@ class StateGaming : State
     public override IEnumerator StateStart()
     {
         // Step 1: Init all models and UI
-
         mGameSystem.board.InitDiscPos();
         mGameSystem.board.InitDiscs();
 
         // mGameSystem.modelboard.BindOnDiscInfoChange(mGameSystem.board.SetDiscs);
         mGameSystem.modelboard.InitBoard();
+        mGameSystem.modelboard.mOnDiscInfoChange += mGameSystem.board.SetDiscs;
+        mGameSystem.modelboard.mOnScoreChange += mGameSystem.ui_root.SetScores;
         mGameSystem.board.SetDiscs(mGameSystem.modelboard.mDiscInfos);
 
         mGameSystem.ui_root.ShowGaming(true);

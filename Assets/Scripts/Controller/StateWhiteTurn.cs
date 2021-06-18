@@ -12,6 +12,7 @@ class StateWhiteTurn : State
         mGameSystem.ui_root.WhiteTurn();
 
         RandomPlaceDisc();
+
         yield return new WaitForSeconds(1);
         mGameSystem.SetState(new StateBlackTurn(mGameSystem));
     }
@@ -26,6 +27,7 @@ class StateWhiteTurn : State
         List<Vector2Int> available_pos_list = mGameSystem.modelboard.GetAllValidPos(DiscSide.White);
         if (available_pos_list.Count <= 0)
         {
+            // pass this turn if there is no available place
             return;
         }
         // Random place a disc
@@ -37,13 +39,5 @@ class StateWhiteTurn : State
 
         DiscSide side = DiscSide.White;
         mGameSystem.modelboard.PlaceDisc(pos, side);
-
-        mGameSystem.board.SetDiscs(mGameSystem.modelboard.mDiscInfos);
-
-        int blackScore;
-        int whiteScore;
-        mGameSystem.modelboard.GetScores(out blackScore, out whiteScore);
-        mGameSystem.ui_root.SetScores(blackScore, whiteScore);
-
     }
 }

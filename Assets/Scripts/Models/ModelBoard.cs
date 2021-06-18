@@ -14,7 +14,7 @@ public class DiscInfo
 
     public bool IsEdge()
     {
-        return (Pos.x == 0 || Pos.y == 0 || Pos.x == 7 || Pos.y == 7);
+        return (Pos.x == 0 || Pos.y == 0 || Pos.x == Configs.Lines || Pos.y == Configs.Lines);
     }
 
     public override string ToString()
@@ -35,8 +35,11 @@ public class ModelBoard
     public delegate void OnDiscInfoChange(DiscInfo[,] disc_info);
     public OnDiscInfoChange mOnDiscInfoChange;
 
+    public delegate void OnScoreChange(int black_score, int white_score);
+    public OnScoreChange mOnScoreChange;
+
     // The current discs information on the board
-    public DiscInfo[,] mDiscInfos = new DiscInfo[8, 8];
+    public DiscInfo[,] mDiscInfos = new DiscInfo[Configs.Lines, Configs.Lines];
 
     // The to-flipped discs when the key pos is placed
     public Dictionary<Vector2Int, List<Vector2Int>> mFlippedDiscsWhenPlace = new Dictionary<Vector2Int, List<Vector2Int>>();
@@ -57,24 +60,21 @@ public class ModelBoard
 
     public void InitBoard()
     {
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < Configs.Lines; i++)
         {
-            for (int j = 0; j < 8; j++)
+            for (int j = 0; j < Configs.Lines; j++)
             {
                 DiscInfo disc_info = new DiscInfo(i, j, DiscSide.None);
                 mDiscInfos[i, j] = disc_info;
             }
         }
 
-        mDiscInfos[3, 3].Side = DiscSide.White;
-        mDiscInfos[4, 4].Side = DiscSide.White;
-        mDiscInfos[3, 4].Side = DiscSide.Black;
-        mDiscInfos[4, 3].Side = DiscSide.Black;
-
-        if (mOnDiscInfoChange != null)
+        foreach (KeyValuePair< Vector2Int, DiscSide> InitInfoItem in Configs.InitInfo)
         {
-            mOnDiscInfoChange(mDiscInfos);
+            mDiscInfos[InitInfoItem.Key.x, InitInfoItem.Key.y].Side = InitInfoItem.Value;
         }
+
+        TriggerDelegates();
     }
 
     public void PlaceDisc(Vector2Int pos, DiscSide side)
@@ -85,16 +85,33 @@ public class ModelBoard
         {
             mDiscInfos[flipped_disc.x, flipped_disc.y].Side = side;
         }
-        //mOnDiscInfoChange(mDiscInfos);
+
+        TriggerDelegates();
+    }
+
+    public void TriggerDelegates()
+    {
+        if (mOnDiscInfoChange != null)
+        {
+            mOnDiscInfoChange(mDiscInfos);
+        }
+
+        if (mOnScoreChange != null)
+        {
+            int black_score = 0;
+            int white_score = 0;
+            GetScores(out black_score, out white_score);
+            mOnScoreChange(black_score, white_score);
+        }
     }
 
     public List<Vector2Int> GetAllValidPos(DiscSide side)
     {
         mFlippedDiscsWhenPlace.Clear();
         List<Vector2Int> pos_list = new List<Vector2Int>();
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < Configs.Lines; i++)
         {
-            for (int j = 0; j < 8; j++)
+            for (int j = 0; j < Configs.Lines; j++)
             {
                 Vector2Int pos = new Vector2Int(i, j);
                 List<Vector2Int> flipped_discs;
@@ -180,7 +197,7 @@ public class ModelBoard
 
     bool IsPosOnBoard(Vector2Int pos)
     {
-        return (pos.x >= 0 && pos.y >= 0 && pos.x <= 7 && pos.y <= 7);
+        return (pos.x >= 0 && pos.y >= 0 && pos.x < Configs.Lines && pos.y < Configs.Lines);
     }
 
     public void BindOnDiscInfoChange(OnDiscInfoChange bind_method)
@@ -192,9 +209,9 @@ public class ModelBoard
     {
         black_score = 0;
         white_score = 0;
-        for (int x = 0; x < 8; x++)
+        for (int x = 0; x < Configs.Lines; x++)
         {
-            for (int y = 0; y < 8; y++)
+            for (int y = 0; y < Configs.Lines; y++)
             {
                 switch (mDiscInfos[x, y].Side)
                 {
@@ -205,7 +222,6 @@ public class ModelBoard
                     case DiscSide.White:
                         white_score++;
                         break;
-
                 }
             }
         }

@@ -19,7 +19,7 @@ class StateBlackTurn : State
         }
         else 
         {
-            // pass this turn
+            // pass this turn if there is no available place
             mGameSystem.SetState(new StateWhiteTurn(mGameSystem));
         }
 
@@ -39,12 +39,6 @@ class StateBlackTurn : State
         {
             DiscSide side = DiscSide.Black;
             mGameSystem.modelboard.PlaceDisc(pos, side);
-            int blackScore;
-            int whiteScore;
-            mGameSystem.modelboard.GetScores(out blackScore, out whiteScore);
-            mGameSystem.ui_root.SetScores(blackScore, whiteScore);
-
-            mGameSystem.board.SetDiscs(mGameSystem.modelboard.mDiscInfos);
         
             yield return new WaitForSeconds(1);
             mGameSystem.SetState(new StateWhiteTurn(mGameSystem));
