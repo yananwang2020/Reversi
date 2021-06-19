@@ -15,7 +15,7 @@ public class Configs
         };
 
     public static string TextWinTitle = "Winner winner chicken dinner!";
-    public static string TextLoseTitle = "I can lose, but I never give up!";
-    public static string TextTieTitle = "Well done, you conquered half of the board.";
+    public static string TextLoseTitle = "I may lose, but I will never give up!";
+    public static string TextTieTitle = "Well done, you have conquered half of the board.";
 
 }

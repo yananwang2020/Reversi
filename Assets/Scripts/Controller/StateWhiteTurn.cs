@@ -10,6 +10,7 @@ class StateWhiteTurn : State
     public override IEnumerator StateStart()
     {
         mGameSystem.UIRoot.WhiteTurn();
+        yield return new WaitForSeconds(1);
 
         RandomPlaceDisc();
 
