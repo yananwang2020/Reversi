@@ -14,4 +14,8 @@ public class Configs
             { new Vector2Int(4, 3), DiscSide.Black },
         };
 
+    public static string TextWinTitle = "Winner winner chicken dinner!";
+    public static string TextLoseTitle = "I can lose, but I never give up!";
+    public static string TextTieTitle = "Well done, you conquered half of the board.";
+
 }

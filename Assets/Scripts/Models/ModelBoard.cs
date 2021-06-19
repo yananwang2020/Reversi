@@ -33,7 +33,7 @@ public enum DiscSide : int
 public class ModelBoard
 {
     public delegate void OnDiscInfoChange(DiscInfo[,] disc_info);
-    public OnDiscInfoChange mOnDiscInfoChange;
+    public OnDiscInfoChange mOnDiscInfoRefresh;
 
     public delegate void OnScoreChange(int black_score, int white_score);
     public OnScoreChange mOnScoreChange;
@@ -69,7 +69,7 @@ public class ModelBoard
             }
         }
 
-        foreach (KeyValuePair< Vector2Int, DiscSide> InitInfoItem in Configs.InitInfo)
+        foreach (KeyValuePair<Vector2Int, DiscSide> InitInfoItem in Configs.InitInfo)
         {
             mDiscInfos[InitInfoItem.Key.x, InitInfoItem.Key.y].Side = InitInfoItem.Value;
         }
@@ -87,21 +87,10 @@ public class ModelBoard
         }
 
         TriggerDelegates();
-    }
 
-    public void TriggerDelegates()
-    {
-        if (mOnDiscInfoChange != null)
+        if(CheckGameEnd())
         {
-            mOnDiscInfoChange(mDiscInfos);
-        }
-
-        if (mOnScoreChange != null)
-        {
-            int black_score = 0;
-            int white_score = 0;
-            GetScores(out black_score, out white_score);
-            mOnScoreChange(black_score, white_score);
+            GlobalEventManager.Instance.CallAction(ActionName.GameEnd);
         }
     }
 
@@ -125,7 +114,39 @@ public class ModelBoard
         return pos_list;
     }
 
-    public bool CheckValid(Vector2Int pos, DiscSide side, out List<Vector2Int> flipped_discs)
+    void TriggerDelegates()
+    {
+        if (mOnDiscInfoRefresh != null)
+        {
+            mOnDiscInfoRefresh(mDiscInfos);
+        }
+
+        if (mOnScoreChange != null)
+        {
+            int black_score = 0;
+            int white_score = 0;
+            GetScores(out black_score, out white_score);
+            mOnScoreChange(black_score, white_score);
+        }
+    }
+
+    bool CheckGameEnd()
+    {
+        for (int i = 0; i < Configs.Lines; i++)
+        {
+            for (int j = 0; j < Configs.Lines; j++)
+            {
+                // Game is not end if there are vacant positions.
+                if (mDiscInfos[i, j].Side == DiscSide.None)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    bool CheckValid(Vector2Int pos, DiscSide side, out List<Vector2Int> flipped_discs)
     {
         flipped_discs = new List<Vector2Int>();
 
@@ -200,12 +221,7 @@ public class ModelBoard
         return (pos.x >= 0 && pos.y >= 0 && pos.x < Configs.Lines && pos.y < Configs.Lines);
     }
 
-    public void BindOnDiscInfoChange(OnDiscInfoChange bind_method)
-    {
-        mOnDiscInfoChange += bind_method;
-    }
-
-    public void GetScores(out int black_score, out int white_score)
+    void GetScores(out int black_score, out int white_score)
     {
         black_score = 0;
         white_score = 0;

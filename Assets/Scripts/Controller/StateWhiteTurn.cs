@@ -9,7 +9,7 @@ class StateWhiteTurn : State
 
     public override IEnumerator StateStart()
     {
-        mGameSystem.ui_root.WhiteTurn();
+        mGameSystem.uiRoot.WhiteTurn();
 
         RandomPlaceDisc();
 

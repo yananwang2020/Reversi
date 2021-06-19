@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameSystem : StateMachine
 {
-    public UIRoot ui_root;
+    public UIRoot uiRoot;
+    public Board gameBoard;
+
     public ModelBoard modelboard;
-    public Board board;
 
     private void Start()
     {
@@ -44,10 +41,10 @@ public class GameSystem : StateMachine
 
     public void RegistActions()
     {
+        GlobalEventManager.Instance.RegisterAction(ActionName.GameEnterLobby, new Action(ShowLobby));
         GlobalEventManager.Instance.RegisterAction(ActionName.GameStartAsCat, new Action(StartGameAsCat));
         GlobalEventManager.Instance.RegisterAction(ActionName.GameStartAsDog, new Action(StartGameAsDog));
         GlobalEventManager.Instance.RegisterAction(ActionName.GameEnd, new Action(ShowResult));
-        GlobalEventManager.Instance.RegisterAction(ActionName.GamePause, new Action(ShowResult));
     }
 
     public void ShowLobby()
@@ -59,16 +56,21 @@ public class GameSystem : StateMachine
     public void StartGameAsCat()
     {
         Debug.Log("StartGameAsCat");
+        Settings.Instance.ChoseCharactor(CharType.Cat);
         SetState(new StateGaming(this));
     }
 
     public void StartGameAsDog()
     {
         Debug.Log("StartGameAsDog");
+        Settings.Instance.ChoseCharactor(CharType.Dog);
         SetState(new StateGaming(this));
     }
 
+    [ContextMenu("ShowResult")]
     public void ShowResult()
     {
+        Debug.Log("ShowResult");
+        SetState(new StateResult(this));
     }
 }

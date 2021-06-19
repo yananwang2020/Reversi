@@ -9,13 +9,13 @@ class StateBlackTurn : State
 
     public override IEnumerator StateStart()
     {
-        mGameSystem.ui_root.BlackTurn();
+        mGameSystem.uiRoot.BlackTurn();
 
         available_pos_list = mGameSystem.modelboard.GetAllValidPos(DiscSide.Black);
         if (available_pos_list.Count > 0)
         {
             // Visualise all available positions in the board
-            mGameSystem.board.ShowAvailablePos(available_pos_list);
+            mGameSystem.gameBoard.ShowAvailablePos(available_pos_list);
         }
         else 
         {
