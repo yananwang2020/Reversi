@@ -9,13 +9,13 @@ class StateBlackTurn : State
 
     public override IEnumerator StateStart()
     {
-        mGameSystem.uiRoot.BlackTurn();
+        mGameSystem.UIRoot.BlackTurn();
 
-        available_pos_list = mGameSystem.modelboard.GetAllValidPos(DiscSide.Black);
+        available_pos_list = mGameSystem.Modelboard.GetAllValidPos(DiscSide.Black);
         if (available_pos_list.Count > 0)
         {
             // Visualise all available positions in the board
-            mGameSystem.gameBoard.ShowAvailablePos(available_pos_list);
+            mGameSystem.GameBoard.ShowAvailablePos(available_pos_list);
         }
         else 
         {
@@ -38,7 +38,7 @@ class StateBlackTurn : State
         if (available_pos_list.Contains(pos))
         {
             DiscSide side = DiscSide.Black;
-            mGameSystem.modelboard.PlaceDisc(pos, side);
+            mGameSystem.Modelboard.PlaceDisc(pos, side);
         
             yield return new WaitForSeconds(1);
             mGameSystem.SetState(new StateWhiteTurn(mGameSystem));

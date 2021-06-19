@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35dc0c8b091c3c246ba33cb6d83b291f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  discImage: {fileID: 1912263133000325006}
-  discCollider: {fileID: 1207388719}
+  DiscImage: {fileID: 1912263133000325006}
+  DiscCollider: {fileID: 1207388719}
 --- !u!1 &8589739220120092313
 GameObject:
   m_ObjectHideFlags: 0

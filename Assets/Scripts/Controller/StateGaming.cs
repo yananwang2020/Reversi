@@ -7,17 +7,9 @@ class StateGaming : State
 
     public override IEnumerator StateStart()
     {
-        // Step 1: Init all models and UI
-        mGameSystem.gameBoard.gameObject.SetActive(true);
-        mGameSystem.gameBoard.InitDiscPos();
-        mGameSystem.gameBoard.InitDiscs();
-
-        mGameSystem.modelboard.InitBoard();
-        mGameSystem.modelboard.mOnDiscInfoRefresh += mGameSystem.gameBoard.SetDiscs;
-        mGameSystem.modelboard.mOnScoreChange += mGameSystem.uiRoot.SetScores;
-        mGameSystem.gameBoard.SetDiscs(mGameSystem.modelboard.mDiscInfos);
-
-        mGameSystem.uiRoot.ShowGaming(true);
+        mGameSystem.Modelboard.SetGameStartDiscs();
+        mGameSystem.GameBoard.gameObject.SetActive(true);
+        mGameSystem.UIRoot.ShowGaming(true);
 
         yield return new WaitForSeconds(1);
 

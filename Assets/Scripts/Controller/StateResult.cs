@@ -12,18 +12,18 @@ class StateResult : State
 
     public override IEnumerator StateStart()
     {
+        yield return new WaitForSeconds(3);
         // Hide things from the gameing
-        mGameSystem.gameBoard.gameObject.SetActive(false);
-        mGameSystem.uiRoot.ShowGaming(false);
+        mGameSystem.GameBoard.gameObject.SetActive(false);
+        mGameSystem.UIRoot.ShowGaming(false);
 
         // Show things for the result
-        mGameSystem.uiRoot.ShowResult(true);
-        yield return null;
+        mGameSystem.UIRoot.ShowResult(true);
     }
 
     public override IEnumerator StateEnd()
     {
-        mGameSystem.uiRoot.ShowResult(false);
+        mGameSystem.UIRoot.ShowResult(false);
         yield return null;
     }
 }

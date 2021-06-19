@@ -13,13 +13,13 @@ class StateLobby : State
     public override IEnumerator StateStart()
     {
         Debug.Log("Game Start!");
-        mGameSystem.uiRoot.ShowLobby(true);
+        mGameSystem.UIRoot.ShowLobby(true);
         yield return null;
     }
 
     public override IEnumerator StateEnd()
     {
-        mGameSystem.uiRoot.ShowLobby(false);
+        mGameSystem.UIRoot.ShowLobby(false);
         yield return null;
     }
 }

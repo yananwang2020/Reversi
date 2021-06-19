@@ -3,16 +3,14 @@ using UnityEngine;
 
 public class GameSystem : StateMachine
 {
-    public UIRoot uiRoot;
-    public Board gameBoard;
-
-    public ModelBoard modelboard;
+    public UIRoot UIRoot;
+    public Board GameBoard;
+    public ModelBoard Modelboard;
 
     private void Start()
     {
-        Init();
         RegistActions();
-        ShowLobby();
+        InitGame();
     }
 
     private void Update()
@@ -27,16 +25,17 @@ public class GameSystem : StateMachine
                 Disc disc = hit.collider.transform.GetComponentInParent<Disc>();
                 if (disc != null)
                 {
-                    var discinfo = disc.discInfo;
+                    var discinfo = disc.DiscInfo;
                     StartCoroutine(mCrtState.PlaceDisc(discinfo.Pos));
                 }
             }
         }
     }
 
-    public void Init()
+    public void InitGame()
     {
-        modelboard = new ModelBoard();
+        Modelboard = new ModelBoard();
+        SetState(new StateInit(this));
     }
 
     public void RegistActions()

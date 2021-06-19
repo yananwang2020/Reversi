@@ -40,7 +40,7 @@ public class Settings : MonoBehaviour
 
         foreach (CharImage item in CharImages)
         {
-            if (item.charType == char_type)
+            if (item.charType == blackCharType)
             {
                 blackCharImg = item.charImage;
             }

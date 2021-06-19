@@ -12,11 +12,6 @@ public class DiscInfo
         Side = s;
     }
 
-    public bool IsEdge()
-    {
-        return (Pos.x == 0 || Pos.y == 0 || Pos.x == Configs.Lines || Pos.y == Configs.Lines);
-    }
-
     public override string ToString()
     {
         return ($"Disc at {Pos} with value {Side}");
@@ -66,6 +61,17 @@ public class ModelBoard
             {
                 DiscInfo disc_info = new DiscInfo(i, j, DiscSide.None);
                 mDiscInfos[i, j] = disc_info;
+            }
+        }
+    }
+
+    public void SetGameStartDiscs()
+    {
+        for (int i = 0; i < Configs.Lines; i++)
+        {
+            for (int j = 0; j < Configs.Lines; j++)
+            {
+                mDiscInfos[i, j].Side = DiscSide.None;
             }
         }
 

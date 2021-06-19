@@ -9,7 +9,7 @@ class StateWhiteTurn : State
 
     public override IEnumerator StateStart()
     {
-        mGameSystem.uiRoot.WhiteTurn();
+        mGameSystem.UIRoot.WhiteTurn();
 
         RandomPlaceDisc();
 
@@ -24,7 +24,7 @@ class StateWhiteTurn : State
 
     public void RandomPlaceDisc()
     {
-        List<Vector2Int> available_pos_list = mGameSystem.modelboard.GetAllValidPos(DiscSide.White);
+        List<Vector2Int> available_pos_list = mGameSystem.Modelboard.GetAllValidPos(DiscSide.White);
         if (available_pos_list.Count <= 0)
         {
             // pass this turn if there is no available place
@@ -38,6 +38,6 @@ class StateWhiteTurn : State
         Debug.Log($"The white side drops disc at ({pos})");
 
         DiscSide side = DiscSide.White;
-        mGameSystem.modelboard.PlaceDisc(pos, side);
+        mGameSystem.Modelboard.PlaceDisc(pos, side);
     }
 }
