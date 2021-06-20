@@ -8,33 +8,34 @@ using System.Threading.Tasks;
 
 class StateInit : State
 {
-    public StateInit(GameSystem gamesystem) : base(gamesystem) { }
+    public StateInit(GameSystem game_system) : base(game_system) { }
 
     public override IEnumerator StateStart()
     {
         // Hide all UI
-        mGameSystem.UIRoot.ShowLobby(false);
-        mGameSystem.UIRoot.ShowGaming(false);
-        mGameSystem.UIRoot.ShowResult(false);
+        myGameSystem.GameBoard.gameObject.SetActive(false);
+        myGameSystem.UIRoot.ShowLobby(false);
+        myGameSystem.UIRoot.ShowGaming(false);
+        myGameSystem.UIRoot.ShowResult(false);
 
         // Init the game board
-        mGameSystem.GameBoard.InitDiscPos();
-        mGameSystem.GameBoard.InitDiscs();
+        myGameSystem.GameBoard.InitDiscPos();
+        myGameSystem.GameBoard.InitDiscs();
 
         // Init the game model
-        mGameSystem.Modelboard.InitBoard();
-        mGameSystem.Modelboard.mOnDiscInfoRefresh += mGameSystem.GameBoard.SetDiscs;
-        mGameSystem.Modelboard.mOnScoreChange += mGameSystem.UIRoot.SetScores;
+        myGameSystem.Modelboard.InitBoard();
+        myGameSystem.Modelboard.mOnDiscInfoRefresh += myGameSystem.GameBoard.SetDiscs;
+        myGameSystem.Modelboard.mOnScoreChange += myGameSystem.UIRoot.SetScores;
 
         // Enter lobby
-        mGameSystem.SetState(new StateLobby(mGameSystem));
+        myGameSystem.SetState(new StateLobby(myGameSystem));
 
         yield return null;
     }
 
     public override IEnumerator StateEnd()
     {
-        mGameSystem.UIRoot.ShowLobby(false);
+        myGameSystem.UIRoot.ShowLobby(false);
         yield return null;
     }
 }

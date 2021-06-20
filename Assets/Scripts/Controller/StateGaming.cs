@@ -3,18 +3,19 @@ using UnityEngine;
 
 class StateGaming : State
 {
-    public StateGaming(GameSystem gamesystem) : base(gamesystem) { }
+    public StateGaming(GameSystem game_system) : base(game_system) { }
 
     public override IEnumerator StateStart()
     {
-        mGameSystem.Modelboard.SetGameStartDiscs();
-        mGameSystem.GameBoard.gameObject.SetActive(true);
-        mGameSystem.UIRoot.ShowGaming(true);
+        // Step 1: Visualise some content
+        myGameSystem.Modelboard.SetGameStartDiscs();
+        myGameSystem.GameBoard.gameObject.SetActive(true);
+        myGameSystem.UIRoot.ShowGaming(true);
 
         yield return new WaitForSeconds(1);
 
-        // Step 2: Go to Black Turn
-        mGameSystem.SetState(new StateBlackTurn(mGameSystem));
+        // Step 2: Go to the black turn
+        myGameSystem.SetState(new StateBlackTurn(myGameSystem));
     }
 
     public override IEnumerator StateEnd()

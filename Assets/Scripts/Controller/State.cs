@@ -3,11 +3,11 @@ using UnityEngine;
 
 public abstract class State
 {
-    protected GameSystem mGameSystem;
+    protected GameSystem myGameSystem;
 
-    public State(GameSystem gs)
+    public State(GameSystem game_system)
     {
-        mGameSystem = gs;
+        myGameSystem = game_system;
     }
 
     public virtual IEnumerator StateStart()

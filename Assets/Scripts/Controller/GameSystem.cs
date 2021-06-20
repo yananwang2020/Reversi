@@ -4,7 +4,7 @@ using UnityEngine;
 public class GameSystem : StateMachine
 {
     public UIRoot UIRoot;
-    public Board GameBoard;
+    public GameBoard GameBoard;
     public ModelBoard Modelboard;
 
     private void Start()
@@ -26,7 +26,7 @@ public class GameSystem : StateMachine
                 if (disc != null)
                 {
                     var discinfo = disc.DiscInfo;
-                    StartCoroutine(mCrtState.PlaceDisc(discinfo.Pos));
+                    StartCoroutine(CrtState.PlaceDisc(discinfo.Pos));
                 }
             }
         }
@@ -55,14 +55,14 @@ public class GameSystem : StateMachine
     public void StartGameAsCat()
     {
         Debug.Log("StartGameAsCat");
-        Settings.Instance.ChoseCharactor(CharType.Cat);
+        CharSettings.Instance.ChoseCharactor(CharType.Cat);
         SetState(new StateGaming(this));
     }
 
     public void StartGameAsDog()
     {
         Debug.Log("StartGameAsDog");
-        Settings.Instance.ChoseCharactor(CharType.Dog);
+        CharSettings.Instance.ChoseCharactor(CharType.Dog);
         SetState(new StateGaming(this));
     }
 

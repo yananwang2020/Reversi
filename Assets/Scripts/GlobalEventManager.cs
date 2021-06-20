@@ -1,4 +1,3 @@
-using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,12 +34,12 @@ public class GlobalEventManager : MonoBehaviour
         {
             actions[actionname] = action;
         }
-        Debug.Log("Register action");
+        Debug.Log($"Register action {actionname}");
     }
 
     public void CallAction(ActionName actionname)
     {
-        Debug.Log("CallAction");
+        Debug.Log($"CallAction {actionname}");
         actions[actionname]();
     }
 }

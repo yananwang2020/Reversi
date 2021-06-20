@@ -1,15 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Board : MonoBehaviour
+public class GameBoard : MonoBehaviour
 {
     public GameObject PointTopLeft;
     public GameObject PointBottomRight;
     public GameObject PrefDisc;
 
-    private Vector3[,] discPositions;
-    private Disc[,] discs;
+    Vector3[,] discPositions;
+    Disc[,] discs;
 
     public void InitDiscPos()
     {

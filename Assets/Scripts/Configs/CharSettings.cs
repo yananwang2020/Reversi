@@ -16,9 +16,9 @@ public struct CharImage
     public Sprite charImage;
 }
 
-public class Settings : MonoBehaviour
+public class CharSettings : MonoBehaviour
 {
-    public static Settings Instance;
+    public static CharSettings Instance;
 
     public CharImage[] CharImages;
 

@@ -18,4 +18,5 @@ public class Configs
     public static string TextLoseTitle = "I may lose, but I will never give up!";
     public static string TextTieTitle = "Well done, you have conquered half of the board.";
 
+    public static Color AvailablePosColor = new Color(1, 1, 1, 0.3f);
 }

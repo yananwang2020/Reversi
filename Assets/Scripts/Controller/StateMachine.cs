@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 public abstract class StateMachine : MonoBehaviour
 {
-    protected State mCrtState;
+    protected State CrtState;
 
     public void SetState(State state)
     {
-        if (mCrtState != null)
+        if (CrtState != null)
         {
-            StartCoroutine(mCrtState.StateEnd());
+            StartCoroutine(CrtState.StateEnd());
         }
 
-        mCrtState = state;
-        StartCoroutine(mCrtState.StateStart());
+        CrtState = state;
+        StartCoroutine(CrtState.StateStart());
         Debug.Log("SetState: " + state.ToString());
     }
 }

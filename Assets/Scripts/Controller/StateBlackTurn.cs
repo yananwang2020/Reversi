@@ -5,22 +5,22 @@ using UnityEngine;
 class StateBlackTurn : State
 {
     public StateBlackTurn(GameSystem game_system) : base(game_system) { }
-    List<Vector2Int> available_pos_list;
+    List<Vector2Int> availablePositions;
 
     public override IEnumerator StateStart()
     {
-        mGameSystem.UIRoot.BlackTurn();
+        myGameSystem.UIRoot.BlackTurn();
 
-        available_pos_list = mGameSystem.Modelboard.GetAllValidPos(DiscSide.Black);
-        if (available_pos_list.Count > 0)
+        availablePositions = myGameSystem.Modelboard.GetAllValidPos(DiscSide.Black);
+        if (availablePositions.Count > 0)
         {
             // Visualise all available positions in the board
-            mGameSystem.GameBoard.ShowAvailablePos(available_pos_list);
+            myGameSystem.GameBoard.ShowAvailablePos(availablePositions);
         }
         else 
         {
             // pass this turn if there is no available place
-            mGameSystem.SetState(new StateWhiteTurn(mGameSystem));
+            myGameSystem.SetState(new StateWhiteTurn(myGameSystem));
         }
 
         yield return null;
@@ -35,13 +35,13 @@ class StateBlackTurn : State
     {
         Debug.Log($"The black side drops disc at ({pos})");
 
-        if (available_pos_list.Contains(pos))
+        if (availablePositions.Contains(pos))
         {
             DiscSide side = DiscSide.Black;
-            mGameSystem.Modelboard.PlaceDisc(pos, side);
+            myGameSystem.Modelboard.PlaceDisc(pos, side);
         
             yield return new WaitForSeconds(1);
-            mGameSystem.SetState(new StateWhiteTurn(mGameSystem));
+            myGameSystem.SetState(new StateWhiteTurn(myGameSystem));
         }
     }
 }
