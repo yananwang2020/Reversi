@@ -24,8 +24,8 @@ class StateInit : State
 
         // Init the game model
         myGameSystem.Modelboard.InitBoard();
-        myGameSystem.Modelboard.mOnDiscInfoRefresh += myGameSystem.GameBoard.SetDiscs;
-        myGameSystem.Modelboard.mOnScoreChange += myGameSystem.UIRoot.SetScores;
+        myGameSystem.Modelboard.EventOnDiscInfoRefresh += myGameSystem.GameBoard.SetDiscs;
+        myGameSystem.Modelboard.EventOnScoreChange += myGameSystem.UIRoot.SetScores;
 
         // Enter lobby
         myGameSystem.SetState(new StateLobby(myGameSystem));

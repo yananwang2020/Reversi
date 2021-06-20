@@ -27,20 +27,20 @@ public enum DiscSide : int
 public class ModelBoard
 {
     public delegate void OnDiscInfoChange(DiscInfo[,] disc_info);
-    public OnDiscInfoChange mOnDiscInfoRefresh;
+    public OnDiscInfoChange EventOnDiscInfoRefresh;
 
     public delegate void OnScoreChange(int black_score, int white_score);
-    public OnScoreChange mOnScoreChange;
+    public OnScoreChange EventOnScoreChange;
 
     // The current discs information on the board
-    public DiscInfo[,] mDiscInfos = new DiscInfo[Configs.Lines, Configs.Lines];
+    public DiscInfo[,] DiscInfos = new DiscInfo[Configs.Lines, Configs.Lines];
 
     // The to-flipped discs when the key pos is placed
-    public Dictionary<Vector2Int, List<Vector2Int>> mFlippedDiscsWhenPlace = new Dictionary<Vector2Int, List<Vector2Int>>();
+    public Dictionary<Vector2Int, List<Vector2Int>> FlippedDiscsWhenPlace = new Dictionary<Vector2Int, List<Vector2Int>>();
 
     // All eight direction: left, right, up, down
     // up left, upright, down left, down right,
-    List<Vector2Int> mDirections = new List<Vector2Int>()
+    List<Vector2Int> directions = new List<Vector2Int>()
     {
         new Vector2Int(0, 1),
         new Vector2Int(0, -1),
@@ -59,7 +59,7 @@ public class ModelBoard
             for (int j = 0; j < Configs.Lines; j++)
             {
                 DiscInfo disc_info = new DiscInfo(i, j, DiscSide.None);
-                mDiscInfos[i, j] = disc_info;
+                DiscInfos[i, j] = disc_info;
             }
         }
     }
@@ -70,13 +70,13 @@ public class ModelBoard
         {
             for (int j = 0; j < Configs.Lines; j++)
             {
-                mDiscInfos[i, j].Side = DiscSide.None;
+                DiscInfos[i, j].Side = DiscSide.None;
             }
         }
 
         foreach (KeyValuePair<Vector2Int, DiscSide> InitInfoItem in Configs.InitInfo)
         {
-            mDiscInfos[InitInfoItem.Key.x, InitInfoItem.Key.y].Side = InitInfoItem.Value;
+            DiscInfos.GetItem(InitInfoItem.Key).Side = InitInfoItem.Value;
         }
 
         TriggerDelegates();
@@ -84,11 +84,11 @@ public class ModelBoard
 
     public void PlaceDisc(Vector2Int pos, DiscSide side)
     {
-        mDiscInfos[pos.x, pos.y].Side = side;
+        DiscInfos[pos.x, pos.y].Side = side;
 
-        foreach (Vector2Int flipped_disc in mFlippedDiscsWhenPlace[pos])
+        foreach (Vector2Int flipped_disc in FlippedDiscsWhenPlace[pos])
         {
-            mDiscInfos[flipped_disc.x, flipped_disc.y].Side = side;
+            DiscInfos.GetItem(flipped_disc).Side = side;
         }
 
         TriggerDelegates();
@@ -101,7 +101,7 @@ public class ModelBoard
 
     public List<Vector2Int> GetAllValidPos(DiscSide side)
     {
-        mFlippedDiscsWhenPlace.Clear();
+        FlippedDiscsWhenPlace.Clear();
         List<Vector2Int> pos_list = new List<Vector2Int>();
         for (int i = 0; i < Configs.Lines; i++)
         {
@@ -112,7 +112,7 @@ public class ModelBoard
                 if (CheckValid(pos, side, out flipped_discs))
                 {
                     pos_list.Add(pos);
-                    mFlippedDiscsWhenPlace.Add(pos, flipped_discs);
+                    FlippedDiscsWhenPlace.Add(pos, flipped_discs);
                 }
             }
         }
@@ -121,17 +121,17 @@ public class ModelBoard
 
     void TriggerDelegates()
     {
-        if (mOnDiscInfoRefresh != null)
+        if (EventOnDiscInfoRefresh != null)
         {
-            mOnDiscInfoRefresh(mDiscInfos);
+            EventOnDiscInfoRefresh(DiscInfos);
         }
 
-        if (mOnScoreChange != null)
+        if (EventOnScoreChange != null)
         {
             int black_score = 0;
             int white_score = 0;
             GetScores(out black_score, out white_score);
-            mOnScoreChange(black_score, white_score);
+            EventOnScoreChange(black_score, white_score);
         }
     }
 
@@ -142,7 +142,7 @@ public class ModelBoard
             for (int j = 0; j < Configs.Lines; j++)
             {
                 // Game is not end if there are vacant positions.
-                if (mDiscInfos[i, j].Side == DiscSide.None)
+                if (DiscInfos[i, j].Side == DiscSide.None)
                 {
                     return false;
                 }
@@ -156,13 +156,13 @@ public class ModelBoard
         flipped_discs = new List<Vector2Int>();
 
         // if the position is occupied
-        if (mDiscInfos[pos.x, pos.y].Side != DiscSide.None)
+        if (DiscInfos.GetItem(pos).Side != DiscSide.None)
         {
             return false;
         }
 
         // Check all discs in the 8 directions
-        foreach (Vector2Int direct in mDirections)
+        foreach (Vector2Int direct in directions)
         {
             // checking stages
             int stage = 0;
@@ -178,7 +178,7 @@ public class ModelBoard
                 pos_in_direct += direct;
 
                 // out the board or is empty
-                if (!IsPosOnBoard(pos_in_direct) || mDiscInfos[pos_in_direct.x, pos_in_direct.y].Side == DiscSide.None)
+                if (!IsPosOnBoard(pos_in_direct) || DiscInfos.GetItem(pos_in_direct).Side == DiscSide.None)
                 {
                     break;
                 }
@@ -187,7 +187,7 @@ public class ModelBoard
                 if (stage == 0)
                 {
                     // find the sequencial opposite sides along the position
-                    if ((int)mDiscInfos[pos_in_direct.x, pos_in_direct.y].Side * (int)side == -1)
+                    if ((int)DiscInfos.GetItem(pos_in_direct).Side * (int)side == -1)
                     {
                         stage = 1;
                     }
@@ -200,7 +200,7 @@ public class ModelBoard
                 if (stage == 1)
                 {
                     // find the same side disc, end the finding process
-                    if ((int)mDiscInfos[pos_in_direct.x, pos_in_direct.y].Side * (int)side == 1)
+                    if ((int)DiscInfos.GetItem(pos_in_direct).Side * (int)side == 1)
                     {
                         stage = 2;
                         break;
@@ -234,7 +234,7 @@ public class ModelBoard
         {
             for (int y = 0; y < Configs.Lines; y++)
             {
-                switch (mDiscInfos[x, y].Side)
+                switch (DiscInfos[x, y].Side)
                 {
                     case DiscSide.Black:
                         black_score++;

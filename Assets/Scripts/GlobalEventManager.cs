@@ -15,7 +15,6 @@ public enum ActionName
 public class GlobalEventManager : MonoBehaviour
 {
     public static GlobalEventManager Instance;
-
     Dictionary<ActionName, Action> actions;
 
     private void Awake()

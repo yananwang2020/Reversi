@@ -1,21 +1,34 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Disc : MonoBehaviour
 {
     public DiscInfo DiscInfo;
-    public SpriteRenderer DiscImage;
-    public Collider2D DiscCollider;
+    Image selfImage;
+
+    public void Awake()
+    {
+        selfImage = this.gameObject.GetComponent<Image>();
+    }
 
     public void SetInfo(DiscInfo disc_info)
     {
         DiscInfo = disc_info;
-        DiscImage.sprite = CharSettings.Instance.GetImage(DiscInfo.Side);
-        DiscImage.color = Color.white;
+        Sprite disc_sprite = CharSettings.Instance.GetImage(DiscInfo.Side);
+        selfImage.sprite = disc_sprite;
+        if (disc_sprite != null)
+        {
+            selfImage.color = Color.white;
+        }
+        else
+        {
+            selfImage.color = Color.clear;
+        }
     }
 
     public void ShowAvailableColor()
     {
-        DiscImage.sprite = CharSettings.Instance.GetImage(DiscSide.Black);
-        DiscImage.color = Configs.AvailablePosColor;
+        selfImage.sprite = CharSettings.Instance.GetImage(DiscSide.Black);
+        selfImage.color = Configs.AvailablePosColor;
     }
 }

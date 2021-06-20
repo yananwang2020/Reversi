@@ -2,9 +2,8 @@ using UnityEngine;
 
 public static class MyExtensions
 {
-    public static Vector2Int Clone(this Vector2Int v)
+    public static DiscInfo GetItem(this DiscInfo[,] dict, Vector2Int index)
     {
-        Vector2Int new_v = new Vector2Int(v.x, v.y);
-        return new_v;
+        return dict[index.x, index.y];
     }
 }

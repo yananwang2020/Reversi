@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameBoard : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class GameBoard : MonoBehaviour
 
     Vector3[,] discPositions;
     Disc[,] discs;
+    Vector2 discSize;
 
     public void InitDiscPos()
     {
@@ -23,10 +25,14 @@ public class GameBoard : MonoBehaviour
             {
                 Vector3 pos_i = pos_tl + new Vector3(pos_gap.x * j, pos_gap.y * i, 0);
                 discPositions[i,j] = pos_i;
+
+
             }
         }
 
-        //Debug.Log(pointTopLeft.transform.)
+        RectTransform rt = PointTopLeft.GetComponent(typeof(RectTransform)) as RectTransform;
+        discSize = rt.rect.size;
+        Debug.Log($"discRect {discSize}");
     }
 
     public void InitDiscs()
@@ -41,6 +47,8 @@ public class GameBoard : MonoBehaviour
                 disc_ij.transform.SetParent(this.transform);
                 disc_ij.transform.localPosition = discPositions[i,j];
                 disc_ij.transform.localScale = Vector3.one;
+                disc_ij.GetComponent<RectTransform>().sizeDelta = discSize;
+                disc_ij.GetComponent<BoxCollider2D>().size = discSize;
                 disc_ij.name = $"{PrefDisc.name}_{i}_{j}";
                 discs[i, j] = disc_ij.GetComponent<Disc>();
             }
