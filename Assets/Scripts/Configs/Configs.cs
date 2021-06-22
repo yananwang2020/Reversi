@@ -19,4 +19,7 @@ public class Configs
     public static string TextTieTitle = "Well done, you have conquered half of the board.";
 
     public static Color AvailablePosColor = new Color(1, 1, 1, 0.3f);
+
+    public static float TurnIntervalSec = 0.1f;
+
 }

@@ -39,9 +39,18 @@ class StateBlackTurn : State
         {
             DiscSide side = DiscSide.Black;
             myGameSystem.Modelboard.PlaceDisc(pos, side);
-        
-            yield return new WaitForSeconds(1);
-            myGameSystem.SetState(new StateWhiteTurn(myGameSystem));
+
+            if (myGameSystem.Modelboard.CheckGameEnd())
+            {
+                myGameSystem.SetState(new StateResult(myGameSystem));
+                yield return null;
+            }
+
+            else
+            {
+                yield return new WaitForSeconds(Configs.TurnIntervalSec);
+                myGameSystem.SetState(new StateWhiteTurn(myGameSystem));
+            }
         }
     }
 }

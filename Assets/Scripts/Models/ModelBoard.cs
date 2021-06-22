@@ -92,11 +92,6 @@ public class ModelBoard
         }
 
         TriggerDelegates();
-
-        if(CheckGameEnd())
-        {
-            GlobalEventManager.Instance.CallAction(ActionName.GameEnd);
-        }
     }
 
     public List<Vector2Int> GetAllValidPos(DiscSide side)
@@ -135,7 +130,7 @@ public class ModelBoard
         }
     }
 
-    bool CheckGameEnd()
+    public bool CheckGameEnd()
     {
         for (int i = 0; i < Configs.Lines; i++)
         {

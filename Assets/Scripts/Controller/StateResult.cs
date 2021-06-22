@@ -7,7 +7,7 @@ class StateResult : State
 
     public override IEnumerator StateStart()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         // Hide things from the gameing
         myGameSystem.GameBoard.gameObject.SetActive(false);
         myGameSystem.UIRoot.ShowGaming(false);

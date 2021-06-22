@@ -9,12 +9,20 @@ class StateWhiteTurn : State
     public override IEnumerator StateStart()
     {
         myGameSystem.UIRoot.WhiteTurn();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(Configs.TurnIntervalSec);
 
         RandomPlaceDisc();
 
-        yield return new WaitForSeconds(1);
-        myGameSystem.SetState(new StateBlackTurn(myGameSystem));
+        if (myGameSystem.Modelboard.CheckGameEnd())
+        {
+            myGameSystem.SetState(new StateResult(myGameSystem));
+            yield return null;
+        }
+        else
+        {
+            yield return new WaitForSeconds(Configs.TurnIntervalSec);
+            myGameSystem.SetState(new StateBlackTurn(myGameSystem));
+        }
     }
 
     public override IEnumerator StateEnd()
