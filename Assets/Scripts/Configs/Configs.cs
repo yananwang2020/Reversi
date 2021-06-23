@@ -20,6 +20,6 @@ public class Configs
 
     public static Color AvailablePosColor = new Color(1, 1, 1, 0.3f);
 
-    public static float TurnIntervalSec = 0.1f;
+    public static float TurnIntervalSec = 0.5f;
 
 }

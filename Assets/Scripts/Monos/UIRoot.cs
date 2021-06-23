@@ -15,6 +15,9 @@ public class UIRoot : MonoBehaviour
     public Text textBotScore;
     public Text textResultTitle;
 
+    public Image imgBlack;
+    public Image imgWhite;
+
     public void OnDogClicked()
     {
         GlobalEventManager.Instance.CallAction(ActionName.GameStartAsDog);
@@ -32,6 +35,11 @@ public class UIRoot : MonoBehaviour
 
     public void ShowGaming(bool isshow)
     {
+        imgBlack.sprite = CharSettings.Instance.GetImage(DiscSide.Black);
+        imgWhite.sprite = CharSettings.Instance.GetImage(DiscSide.White);
+        objBlackTurn.SetActive(false);
+        objWhiteTurn.SetActive(false);
+
         objGaming.SetActive(isshow);
     }
 
