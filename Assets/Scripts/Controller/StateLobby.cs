@@ -1,20 +1,23 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-class StateLobby : State
+namespace Reversi.Controller
 {
-    public StateLobby(GameSystem game_system) : base(game_system) { }
-
-    public override IEnumerator StateStart()
+    class StateLobby : State
     {
-        Debug.Log("Game Start!");
-        myGameSystem.UIRoot.ShowLobby(true);
-        yield return null;
-    }
+        public StateLobby(GameSystem game_system) : base(game_system) { }
 
-    public override IEnumerator StateEnd()
-    {
-        myGameSystem.UIRoot.ShowLobby(false);
-        yield return null;
+        public override IEnumerator StateStart()
+        {
+            Debug.Log("Game Start!");
+            myGameSystem.UIRoot.ShowLobby(true);
+            yield return null;
+        }
+
+        public override IEnumerator StateEnd()
+        {
+            myGameSystem.UIRoot.ShowLobby(false);
+            yield return null;
+        }
     }
 }

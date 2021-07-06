@@ -1,25 +1,28 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-class StateGaming : State
+namespace Reversi.Controller
 {
-    public StateGaming(GameSystem game_system) : base(game_system) { }
-
-    public override IEnumerator StateStart()
+    class StateGaming : State
     {
-        // Step 1: Visualise some content
-        myGameSystem.Modelboard.SetGameStartDiscs();
-        myGameSystem.GameBoard.gameObject.SetActive(true);
-        myGameSystem.UIRoot.ShowGaming(true);
+        public StateGaming(GameSystem game_system) : base(game_system) { }
 
-        yield return new WaitForSeconds(1);
+        public override IEnumerator StateStart()
+        {
+            // Step 1: Visualise some content
+            myGameSystem.Modelboard.SetGameStartDiscs();
+            myGameSystem.GameBoard.gameObject.SetActive(true);
+            myGameSystem.UIRoot.ShowGaming(true);
 
-        // Step 2: Go to the black turn
-        myGameSystem.SetState(new StateBlackTurn(myGameSystem));
-    }
+            yield return new WaitForSeconds(1);
 
-    public override IEnumerator StateEnd()
-    {
-        yield return null;
+            // Step 2: Go to the black turn
+            myGameSystem.SetState(new StateBlackTurn(myGameSystem));
+        }
+
+        public override IEnumerator StateEnd()
+        {
+            yield return null;
+        }
     }
 }

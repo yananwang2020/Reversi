@@ -1,24 +1,28 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-class StateResult : State
+
+namespace Reversi.Controller
 {
-    public StateResult(GameSystem game_system) : base(game_system) { }
-
-    public override IEnumerator StateStart()
+    class StateResult : State
     {
-        yield return new WaitForSeconds(1);
-        // Hide things from the gameing
-        myGameSystem.GameBoard.gameObject.SetActive(false);
-        myGameSystem.UIRoot.ShowGaming(false);
+        public StateResult(GameSystem game_system) : base(game_system) { }
 
-        // Show things for the result
-        myGameSystem.UIRoot.ShowResult(true);
-    }
+        public override IEnumerator StateStart()
+        {
+            yield return new WaitForSeconds(1);
+            // Hide things from the gameing
+            myGameSystem.GameBoard.gameObject.SetActive(false);
+            myGameSystem.UIRoot.ShowGaming(false);
 
-    public override IEnumerator StateEnd()
-    {
-        myGameSystem.UIRoot.ShowResult(false);
-        yield return null;
+            // Show things for the result
+            myGameSystem.UIRoot.ShowResult(true);
+        }
+
+        public override IEnumerator StateEnd()
+        {
+            myGameSystem.UIRoot.ShowResult(false);
+            yield return null;
+        }
     }
 }

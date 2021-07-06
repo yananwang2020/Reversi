@@ -1,55 +1,59 @@
-﻿using System.Collections;
+﻿using Reversi.Models;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-class StateBlackTurn : State
+namespace Reversi.Controller
 {
-    public StateBlackTurn(GameSystem game_system) : base(game_system) { }
-    List<Vector2Int> availablePositions;
-
-    public override IEnumerator StateStart()
+    class StateBlackTurn : State
     {
-        myGameSystem.UIRoot.BlackTurn();
+        public StateBlackTurn(GameSystem game_system) : base(game_system) { }
+        List<Vector2Int> availablePositions;
 
-        availablePositions = myGameSystem.Modelboard.GetAllValidPos(DiscSide.Black);
-        if (availablePositions.Count > 0)
+        public override IEnumerator StateStart()
         {
-            // Visualise all available positions in the board
-            myGameSystem.GameBoard.ShowAvailablePos(availablePositions);
-        }
-        else 
-        {
-            // pass this turn if there is no available place
-            myGameSystem.SetState(new StateWhiteTurn(myGameSystem));
-        }
+            myGameSystem.UIRoot.BlackTurn();
 
-        yield return null;
-    }
-
-    public override IEnumerator StateEnd()
-    {
-        yield return null;
-    }
-
-    public override IEnumerator PlaceDisc(Vector2Int pos)
-    {
-        Debug.Log($"The black side drops disc at ({pos})");
-
-        if (availablePositions.Contains(pos))
-        {
-            DiscSide side = DiscSide.Black;
-            myGameSystem.Modelboard.PlaceDisc(pos, side);
-
-            if (myGameSystem.Modelboard.CheckGameEnd())
+            availablePositions = myGameSystem.Modelboard.GetAllValidPos(DiscSide.Black);
+            if (availablePositions.Count > 0)
             {
-                myGameSystem.SetState(new StateResult(myGameSystem));
-                yield return null;
+                // Visualise all available positions in the board
+                myGameSystem.GameBoard.ShowAvailablePos(availablePositions);
             }
-
             else
             {
-                yield return new WaitForSeconds(Configs.TurnIntervalSec);
+                // pass this turn if there is no available place
                 myGameSystem.SetState(new StateWhiteTurn(myGameSystem));
+            }
+
+            yield return null;
+        }
+
+        public override IEnumerator StateEnd()
+        {
+            yield return null;
+        }
+
+        public override IEnumerator PlaceDisc(Vector2Int pos)
+        {
+            Debug.Log($"The black side drops disc at ({pos})");
+
+            if (availablePositions.Contains(pos))
+            {
+                DiscSide side = DiscSide.Black;
+                myGameSystem.Modelboard.PlaceDisc(pos, side);
+
+                if (myGameSystem.Modelboard.CheckGameEnd())
+                {
+                    myGameSystem.SetState(new StateResult(myGameSystem));
+                    yield return null;
+                }
+
+                else
+                {
+                    yield return new WaitForSeconds(GlobalConfigs.TurnIntervalSec);
+                    myGameSystem.SetState(new StateWhiteTurn(myGameSystem));
+                }
             }
         }
     }

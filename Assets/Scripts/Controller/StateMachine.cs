@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 
-public abstract class StateMachine : MonoBehaviour
+namespace Reversi.Controller
 {
-    protected State CrtState;
-
-    public void SetState(State state)
+    public abstract class StateMachine : MonoBehaviour
     {
-        if (CrtState != null)
-        {
-            StartCoroutine(CrtState.StateEnd());
-        }
+        protected State CrtState;
 
-        CrtState = state;
-        StartCoroutine(CrtState.StateStart());
-        Debug.Log("SetState: " + state.ToString());
+        public void SetState(State state)
+        {
+            if (CrtState != null)
+            {
+                StartCoroutine(CrtState.StateEnd());
+            }
+
+            CrtState = state;
+            StartCoroutine(CrtState.StateStart());
+            Debug.Log("SetState: " + state.ToString());
+        }
     }
 }
