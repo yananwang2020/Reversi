@@ -1,34 +1,38 @@
+using Reversi.Models;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Disc : MonoBehaviour
+namespace Reversi.Monos
 {
-    public DiscInfo DiscInfo;
-    Image selfImage;
-
-    public void Awake()
+    public class Disc : MonoBehaviour
     {
-        selfImage = this.gameObject.GetComponent<Image>();
-    }
+        public DiscInfo DiscInfo;
+        Image selfImage;
 
-    public void SetInfo(DiscInfo disc_info)
-    {
-        DiscInfo = disc_info;
-        Sprite disc_sprite = CharSettings.Instance.GetImage(DiscInfo.Side);
-        selfImage.sprite = disc_sprite;
-        if (disc_sprite != null)
+        public void Awake()
         {
-            selfImage.color = Color.white;
+            selfImage = this.gameObject.GetComponent<Image>();
         }
-        else
-        {
-            selfImage.color = Color.clear;
-        }
-    }
 
-    public void ShowAvailableColor()
-    {
-        selfImage.sprite = CharSettings.Instance.GetImage(DiscSide.Black);
-        selfImage.color = Configs.AvailablePosColor;
+        public void SetInfo(DiscInfo disc_info)
+        {
+            DiscInfo = disc_info;
+            Sprite disc_sprite = CharSettings.Instance.GetImage(DiscInfo.Side);
+            selfImage.sprite = disc_sprite;
+            if (disc_sprite != null)
+            {
+                selfImage.color = Color.white;
+            }
+            else
+            {
+                selfImage.color = Color.clear;
+            }
+        }
+
+        public void ShowAvailableColor()
+        {
+            selfImage.sprite = CharSettings.Instance.GetImage(DiscSide.Black);
+            selfImage.color = GlobalConfigs.AvailablePosColor;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
+using Reversi.Models;
 using UnityEngine;
 using UnityEngine.TestTools;
 
@@ -38,9 +39,9 @@ public class EditorModeTestScript
 
         foreach (var disc_info in mb.DiscInfos)
         {
-            if (Configs.InitInfo.ContainsKey(disc_info.Pos))
+            if (GlobalConfigs.InitInfo.ContainsKey(disc_info.Pos))
             {
-                Assert.AreEqual(Configs.InitInfo[disc_info.Pos], disc_info.Side);
+                Assert.AreEqual(GlobalConfigs.InitInfo[disc_info.Pos], disc_info.Side);
             }
             else
             {

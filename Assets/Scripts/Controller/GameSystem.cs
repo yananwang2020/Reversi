@@ -2,6 +2,7 @@
 using Reversi.Monos;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace Reversi.Controller
 {
@@ -9,6 +10,7 @@ namespace Reversi.Controller
     {
         public UIRoot UIRoot;
         public GameBoard GameBoard;
+        [Inject]
         public ModelBoard Modelboard;
 
         private void Start()
@@ -38,7 +40,6 @@ namespace Reversi.Controller
 
         public void InitGame()
         {
-            Modelboard = new ModelBoard();
             SetState(new StateInit(this));
         }
 
